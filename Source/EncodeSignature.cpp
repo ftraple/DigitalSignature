@@ -1,5 +1,5 @@
-#include "EncodeSignature.h"
-#include "Base64.h"
+#include "EncodeSignature.hpp"
+#include "Base64.hpp"
 
 RSA* OpenPrivateKey(const std::string& privateKeyFileName) {
     std::unique_ptr<FILE, decltype(&::fclose)> privateKeyFile(fopen(privateKeyFileName.c_str(),"rb"), &fclose);

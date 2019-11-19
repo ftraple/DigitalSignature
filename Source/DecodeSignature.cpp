@@ -1,5 +1,5 @@
-#include "DecodeSignature.h"
-#include "Base64.h"
+#include "DecodeSignature.hpp"
+#include "Base64.hpp"
 
 RSA* OpenPublicKey(const std::string& publicFileName) {
     std::unique_ptr<FILE, decltype(&::fclose)> publicKeyFile(fopen(publicFileName.c_str(),"rb"), &fclose);
