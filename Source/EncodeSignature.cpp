@@ -22,6 +22,7 @@ EncodeSignature::EncodeSignature(const std::string& privateKeyFileName) {
     m_rsa = OpenPrivateKey(privateKeyFileName);
     m_mdContext = std::shared_ptr<EVP_MD_CTX>(EVP_MD_CTX_new(), EVP_MD_CTX_free);
     m_privateKey = std::shared_ptr<EVP_PKEY>(EVP_PKEY_new(), EVP_PKEY_free);
+    EVP_PKEY_assign_RSA(m_privateKey.get(), m_rsa);
 }
 
 void EncodeSignature::CreateKeyPairFile(
@@ -51,6 +52,7 @@ void EncodeSignature::CreateKeyPairFile(
 
 void EncodeSignature::SetPrivateKey(const std::string& privateKeyFileName) {
     m_rsa = OpenPrivateKey(privateKeyFileName);
+    EVP_PKEY_assign_RSA(m_privateKey.get(), m_rsa);
 }
 
 const std::string EncodeSignature::RSASign(const std::string& message) {
@@ -58,9 +60,6 @@ const std::string EncodeSignature::RSASign(const std::string& message) {
     if (m_rsa == nullptr) {
         return std::string("");
     }
-
-    EVP_PKEY_assign_RSA(m_privateKey.get(), m_rsa);
-
     if (EVP_DigestSignInit(m_mdContext.get(), nullptr, EVP_sha256(), nullptr, m_privateKey.get())< 1) {
         return std::string("");
     }

@@ -41,9 +41,26 @@ int main() {
         std::cout << "This is NOT a valid signature!" << std::endl;
     }
 
-    // Verify if the signature is true
+
+
+    // Create a message
     std::string message2("This message will receive a digital signature.");
+    // Sign the message
+    signature = encodeSignature.RSASign(message2);
+    std::cout << "signature = " << signature << std::endl;
+
+    // Verify if the signature is true
     if (decodeSignature.VerifySignature(message2, signature)) {
+        std::cout << "This is a valid signature!" << std::endl;
+    }
+    else {
+        std::cout << "This is NOT a valid signature!" << std::endl;
+    }
+
+    // Invalidate the message adding a dot.
+    message2.append(".");
+    // Verify if the signature is true
+    if (decodeSignature.VerifySignature(message, signature)) {
         std::cout << "This is a valid signature!" << std::endl;
     }
     else {
