@@ -15,6 +15,7 @@ DecodeSignature::DecodeSignature(const std::string& publicKey) {
     m_rsa = OpenPublicKey(publicKey);
     m_mdContext = std::shared_ptr<EVP_MD_CTX>(EVP_MD_CTX_new(), EVP_MD_CTX_free);
     m_publicKey = std::shared_ptr<EVP_PKEY>(EVP_PKEY_new(), EVP_PKEY_free);
+    EVP_PKEY_assign_RSA(m_publicKey.get(), m_rsa);
 }
 
 bool DecodeSignature::VerifySignature(const std::string& message, const std::string& signature) {
@@ -24,8 +25,6 @@ bool DecodeSignature::VerifySignature(const std::string& message, const std::str
     }
 
     std::vector<unsigned char> binaryMessage = Base64Decode(signature);
-
-    EVP_PKEY_assign_RSA(m_publicKey.get(), m_rsa);
 
     if (EVP_DigestVerifyInit(m_mdContext.get(), nullptr, EVP_sha256(), nullptr, m_publicKey.get()) < 1) {
         return false;
