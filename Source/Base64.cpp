@@ -1,10 +1,10 @@
-#include "Base64.h"
+#include "Base64.hpp"
 
 namespace {
     struct BIOFreeAll { void operator()(BIO* p) { BIO_free_all(p); } };
 }
 
-const std::string Base64Encode(std::vector<unsigned char>& binaryMessage) { 
+const std::string Base64Encode(const std::vector<unsigned char>& binaryMessage) { 
 
     std::unique_ptr<BIO,BIOFreeAll> b64(BIO_new(BIO_f_base64()));
     BIO_set_flags(b64.get(), BIO_FLAGS_BASE64_NO_NL);
@@ -18,7 +18,7 @@ const std::string Base64Encode(std::vector<unsigned char>& binaryMessage) {
 }
 
 // Assumes no newlines or extra characters in encoded string
-std::vector<unsigned char> Base64Decode(const std::string& base64Message) {
+const std::vector<unsigned char> Base64Decode(const std::string& base64Message) {
     
     std::unique_ptr<BIO,BIOFreeAll> b64(BIO_new(BIO_f_base64()));
     BIO_set_flags(b64.get(), BIO_FLAGS_BASE64_NO_NL);
