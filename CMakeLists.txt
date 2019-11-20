@@ -6,14 +6,17 @@ project(DigitalSignature VERSION 1.0.0)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-set(OPENSSL_USE_STATIC_LIBS TRUE)
-find_package(OpenSSL REQUIRED)
-
 #-----> Enable google test
 
 enable_testing()
 add_subdirectory(googletest)
 add_subdirectory(Test)
+include(CTest) 
+
+#-----> Set openssl usage
+
+set(OPENSSL_USE_STATIC_LIBS TRUE)
+find_package(OpenSSL REQUIRED)
 
 #-----> Encode library
 
