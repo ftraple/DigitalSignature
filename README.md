@@ -1,6 +1,6 @@
 # Digital Signature
 
-This library is used to assign a message using RSA public and private keys.
+This library is used to assign messages using RSA public and private keys.
 
 ## How To Install
 
