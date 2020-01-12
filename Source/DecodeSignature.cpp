@@ -1,4 +1,4 @@
-#include "DecodeSignature.hpp"
+#include "DigitalSignature.hpp"
 #include "Base64.hpp"
 
 RSA* OpenPublicKey(const std::string& publicFileName) {
@@ -11,14 +11,14 @@ RSA* OpenPublicKey(const std::string& publicFileName) {
     return rsa;    
 }
 
-DecodeSignature::DecodeSignature(const std::string& publicKey) {
+DigitalSignature::Decode::Decode(const std::string& publicKey) {
     m_rsa = OpenPublicKey(publicKey);
     m_mdContext = std::shared_ptr<EVP_MD_CTX>(EVP_MD_CTX_new(), EVP_MD_CTX_free);
     m_publicKey = std::shared_ptr<EVP_PKEY>(EVP_PKEY_new(), EVP_PKEY_free);
     EVP_PKEY_assign_RSA(m_publicKey.get(), m_rsa);
 }
 
-bool DecodeSignature::VerifySignature(const std::string& message, const std::string& signature) {
+bool DigitalSignature::Decode::VerifySignature(const std::string& message, const std::string& signature) {
 
     if (m_rsa == nullptr) {
         return false;

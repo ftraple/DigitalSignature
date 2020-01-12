@@ -1,31 +1,7 @@
-#include "EncodeSignature.hpp"
+#include "DigitalSignature.hpp"
 #include "Base64.hpp"
 
-RSA* OpenPrivateKey(const std::string& privateKeyFileName) {
-    std::unique_ptr<FILE, decltype(&::fclose)> privateKeyFile(fopen(privateKeyFileName.c_str(),"rb"), &fclose);
-    if(!privateKeyFile) {
-        return nullptr;
-    }
-    RSA* rsa = nullptr;
-    rsa = PEM_read_RSAPrivateKey(privateKeyFile.get(), &rsa, nullptr, nullptr);
-    fclose(privateKeyFile.get());
-    return rsa;
-}
-
-EncodeSignature::EncodeSignature() {
-    m_rsa = nullptr;
-    m_mdContext = std::shared_ptr<EVP_MD_CTX>(EVP_MD_CTX_new(), EVP_MD_CTX_free);
-    m_privateKey = std::shared_ptr<EVP_PKEY>(EVP_PKEY_new(), EVP_PKEY_free);
-}
-
-EncodeSignature::EncodeSignature(const std::string& privateKeyFileName) {
-    m_rsa = OpenPrivateKey(privateKeyFileName);
-    m_mdContext = std::shared_ptr<EVP_MD_CTX>(EVP_MD_CTX_new(), EVP_MD_CTX_free);
-    m_privateKey = std::shared_ptr<EVP_PKEY>(EVP_PKEY_new(), EVP_PKEY_free);
-    EVP_PKEY_assign_RSA(m_privateKey.get(), m_rsa);
-}
-
-void EncodeSignature::CreateKeyPairFile(
+void DigitalSignature::CreateKeyPairFile(
     const std::string& publicKeyFileName,
     const std::string& privateKeyFileName)
 {
@@ -50,12 +26,24 @@ void EncodeSignature::CreateKeyPairFile(
     }
 }
 
-void EncodeSignature::SetPrivateKey(const std::string& privateKeyFileName) {
+RSA* OpenPrivateKey(const std::string& privateKeyFileName) {
+    std::unique_ptr<FILE, decltype(&::fclose)> privateKeyFile(fopen(privateKeyFileName.c_str(),"rb"), &fclose);
+    if(!privateKeyFile) {
+        return nullptr;
+    }
+    RSA* rsa = nullptr;
+    rsa = PEM_read_RSAPrivateKey(privateKeyFile.get(), &rsa, nullptr, nullptr);
+    return rsa;
+}
+
+DigitalSignature::Encode::Encode(const std::string& privateKeyFileName) {
     m_rsa = OpenPrivateKey(privateKeyFileName);
+    m_mdContext = std::shared_ptr<EVP_MD_CTX>(EVP_MD_CTX_new(), EVP_MD_CTX_free);
+    m_privateKey = std::shared_ptr<EVP_PKEY>(EVP_PKEY_new(), EVP_PKEY_free);
     EVP_PKEY_assign_RSA(m_privateKey.get(), m_rsa);
 }
 
-const std::string EncodeSignature::RSASign(const std::string& message) {
+const std::string DigitalSignature::Encode::RSASign(const std::string& message) {
 
     if (m_rsa == nullptr) {
         return std::string("");

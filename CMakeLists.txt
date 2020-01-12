@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 #-----> Enable google test
 
-option(BUILD_TESTS "Build the tests" ON)
+option(BUILD_TESTS "Build the tests" OFF)
 if(BUILD_TESTS)
     enable_testing()
     add_subdirectory(googletest)
@@ -22,21 +22,22 @@ find_package(OpenSSL REQUIRED)
 
 #-----> Compile library
 
-set(EncodeLibrayName DigitalSignature)
-add_library(${EncodeLibrayName} SHARED
+set(LIBRARY_NAME DigitalSignature)
+add_library(${LIBRARY_NAME} SHARED
     Source/Base64.cpp
     Source/EncodeSignature.cpp
     Source/DecodeSignature.cpp
 )
-set_target_properties(${EncodeLibrayName} PROPERTIES 
+set_target_properties(${LIBRARY_NAME} PROPERTIES 
     VERSION ${PROJECT_VERSION}
     PUBLIC_HEADER Include/DecodeSignature.hpp
     PUBLIC_HEADER Include/EncodeSignature.hpp
 )
-target_include_directories(${EncodeLibrayName} PRIVATE Include)
-target_link_libraries(${EncodeLibrayName} OpenSSL::Crypto ${CMAKE_DL_LIBS})
+target_include_directories(${LIBRARY_NAME} PRIVATE Include)
+target_link_libraries(${LIBRARY_NAME} OpenSSL::Crypto ${CMAKE_DL_LIBS})
 
-#-----> Install configurations
-install(TARGETS ${EncodeLibrayName} ${DecodeLibrayName}
+#-----> Install
+install(TARGETS ${LIBRARY_NAME}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
