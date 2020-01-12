@@ -15,13 +15,9 @@ cmake ..
 make
 sudo make install
 ```
-To compile the library with the tests and run it, you can:
+To compile the library with the tests and run it, you need to set a cmake option.
 
 ```bash
-git clone git@github.com:ftraple/DigitalSignature.git
-cd DigitalSignature
-mkdir build
-cd build 
 cmake -DBUILD_TESTS=ON ..
 make test
 ```
