@@ -1,6 +1,6 @@
 # Digital Signature
 
-This library is used to assign memory block data using RSA private/public keys.
+This library is used to assign a message using RSA public and private keys.
 
 ## How To Install
 
@@ -15,7 +15,7 @@ cmake ..
 make
 sudo make install
 ```
-To compile the library with the tests and run it you can do:
+To compile the library with the tests and run it, you can:
 
 ```bash
 git clone git@github.com:ftraple/DigitalSignature.git
@@ -61,5 +61,3 @@ int main() {
     return EXIT_SUCCESS;
 }
 ```
-
-### How To Decode
