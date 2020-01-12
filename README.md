@@ -1,37 +1,34 @@
-# C++ Project Template
+# Digital Signature
 
-This template is used to start any type of project in C++ with gcc compiler.
+This library is used to assign memory block data using RSA private/public keys.
 
-## How To Add a Link
+## How To Install
 
-This is a example of how to add a link.
-
-[GitHub Mastering Markdown](https://guides.github.com/features/mastering-markdown/)
-
-## How To Show Image 
-
-This is an example of how to show an image.
-
-![RGB Image](Resource/Image/RGBImage.jpg)
-
-## How To Add a Video Link
-
-This is an example of how to add a video link.
-
-[![DEMO](https://img.youtube.com/someimage/0.jpg)](https://www.youtube.com/watch?v=45HbI9u2bQw)
-
-## How To Show Line Commands
-
-This is an example of how to show line commands in bash.
+To install this library you need to download the project and compile it with Cmake.
 
 ```bash
-make clean
+git clone git@github.com:ftraple/DigitalSignature.git
+cd DigitalSignature
+mkdir build
+cd build 
+cmake ..
 make
-./Bin/Test
+sudo make install
 ```
-## How To Show a Block Of Code
+To compile the library with the tests and run it you can do:
 
-This is an example of how to show a block of code.
+```bash
+git clone git@github.com:ftraple/DigitalSignature.git
+cd DigitalSignature
+mkdir build
+cd build 
+cmake -DBUILD_TESTS=ON ..
+make test
+sudo make install
+```
+
+## How To Encode
+
 
 ```c++
 function main() {
@@ -39,3 +36,5 @@ function main() {
   return EXIT_SUCCESS;
 }
 ```
+
+## How To Decode
